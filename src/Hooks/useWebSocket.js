@@ -7,7 +7,7 @@ const useWebSocket = () => {
 
   useEffect(() => {
     const connection = new HubConnectionBuilder()
-      .withUrl("https://localhost:8086/hub")
+      .withUrl("http://localhost:8084/hub")
       .withAutomaticReconnect() // Permite reconexiones automáticas si se cae la conexión
       .build();
 
