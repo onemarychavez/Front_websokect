@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const AuthLoguin = async (username, password) => {
   try {
-    const URL = "https://localhost:44322/api/auth/login";
+    const URL = "http://localhost:8084/api/auth/login";
     const response = await axios.post(URL, {
       username,
       password,
@@ -16,7 +16,7 @@ export const AuthLoguin = async (username, password) => {
 
 export const ValidationLoguin = async (token) => {
   try {
-    const URL = "https://localhost:44322/api/Protected";
+    const URL = "http://localhost:8084/api/Protected";
     const response = await axios.get(URL, {
       headers: {
         Authorization: `Bearer ${token}`, 
