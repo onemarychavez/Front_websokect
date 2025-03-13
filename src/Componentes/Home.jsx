@@ -10,26 +10,26 @@ function Home() {
     const [isEditMode, setIsEditMode] = useState(false);
     const [clienteList, setClienteList] = useState([]);
 
-    // Hook de WebSocket con todas las funciones
-    // const { clientes, actualizarCliente, agregarCliente, eliminarCliente } = useWebSocket();
-    const { clientes,ClienteListar } = useWebSocket();
-    
-
-    //aqui en teoria viene el dato nuevo va
+    const { clientes ,ClienteListar } = useWebSocket();
+  
 
 
     useEffect(() => {
         const fetchClientes = async () => {
+          try {
             const data = await ObtenerClientes();
-            setClienteList(data);
-            console.log("valor de clientes:", clientes);
-            data.forEach((a) => {
-                console.log(a);
-            })
             
+            if (JSON.stringify(data) !== JSON.stringify(clienteList)) {
+              console.log("Actualizando lista de clientes...");
+              setClienteList(data);
+            }
+          } catch (error) {
+            console.error("Error obteniendo clientes:", error);
+          }
         };
+      
         fetchClientes();
-    }, [clientes,ClienteListar]);
+      }, [clientes]);
 
     const handleShowModal = (cliente) => {
         setShowModal(true);
@@ -48,12 +48,8 @@ function Home() {
             const nuevoCliente = await AgregarClientes(selectedCliente);
             setClienteList((prevClientes) => [...prevClientes, nuevoCliente]);
 
-            // Notificar al WebSocket para agregar cliente
-            if (ClienteListar) {
-                ClienteListar(nuevoCliente);
-            }
-
             setShowModal(false);
+            await ClienteListar(selectedCliente);
             Swal.fire({
                 icon: "success",
                 title: "Cliente agregado correctamente",
@@ -85,10 +81,7 @@ function Home() {
                 )
             );
 
-            if (ClienteListar) {
-                ClienteListar(actualizadoCliente);
-            }
-
+            await ClienteListar(clienteParaActualizar);
             setShowModal(false);
 
             Swal.fire({
@@ -113,11 +106,6 @@ function Home() {
             setClienteList((prevClientes) =>
                 prevClientes.filter((cli) => cli.id !== cliente.id)
             );
-
-            // Notificar al WebSocket para eliminar cliente
-            if (ClienteListar) {
-                ClienteListar(cliente.id);
-            }
 
             Swal.fire({
                 icon: "success",
@@ -147,6 +135,7 @@ function Home() {
         <>
             <Navbar expand="lg" bg="primary" variant="dark" fixed="top">
                 <Container>
+                    <Button className="btn-success mb-3"href="/" > Cerrar Sesion</Button>
                     <Navbar.Brand href="#home">Home</Navbar.Brand>
                 </Container>
             </Navbar>
@@ -214,7 +203,7 @@ function Home() {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={isEditMode ? handleUpdate : handleAgregar}>
+                    <Button variant="primary" onClick={isEditMode ? handleUpdate: handleAgregar}>
                         {isEditMode ? "Guardar cambios" : "Agregar"}
                     </Button>
                 </Modal.Footer>

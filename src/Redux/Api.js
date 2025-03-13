@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const ObtenerClientes = async () => {
     try {
-        const response = await axios.get("http://localhost:8084/api/Cliente");
+        const response = await axios.get("https://localhost:8086/api/Cliente");
         return response.data;
     } catch (error) {
         return error.response.data;
@@ -11,7 +11,7 @@ export const ObtenerClientes = async () => {
 
 export const AgregarClientes = async (cliente) => {
     try {
-        const response = await axios.post("http://localhost:8084/api/Cliente/Agregar", cliente, {
+        const response = await axios.post("https://localhost:8086/api/Cliente/Agregar", cliente, {
             headers: { 'Content-Type': 'application/json' }
         });
         return response.data;
@@ -22,7 +22,7 @@ export const AgregarClientes = async (cliente) => {
 
 export const ActualizarClientes = async (id, cliente) => {
     try {
-        const response = await axios.put(`http://localhost:8084/api/Cliente/Actualizar/${id}`, cliente, {
+        const response = await axios.put(`https://localhost:8086/api/Cliente/Actualizar/${id}`, cliente, {
             headers: { 'Content-Type': 'application/json' }
         });
         return response.data;
@@ -33,7 +33,7 @@ export const ActualizarClientes = async (id, cliente) => {
 
 export const EliminarClientes = async (id) => {
     try {
-        const response = await axios.delete(`http://localhost:8084/api/Cliente/Eliminar/${id}`);
+        const response = await axios.delete(`https://localhost:8086/api/Cliente/Eliminar/${id}`);
         return response.data;
     } catch (error) {
         return error.response.data;
