@@ -21,7 +21,7 @@ function Login() {
       [name]: value,
     }));
   };
-
+  console.log(credenciales)
   const handleSubmit = async (e) =>{
     e.preventDefault();
     try {
